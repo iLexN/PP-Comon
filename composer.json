@@ -1,0 +1,19 @@
+{
+    "name": "PP/Common",
+    "description": "PP Common",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "alex@kwiksure.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "PP\\Common\\": "src"
+        }
+    }
+}
