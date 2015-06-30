@@ -1,6 +1,9 @@
 <?php
 namespace PP\Common;
 
+require_once dirname(__DIR__) . '/library/tcpdf/tcpdf.php'; 
+
+
 class SimplePDFGen
 {
     public static function Generate($data, $properties=array(), $filepath="")
