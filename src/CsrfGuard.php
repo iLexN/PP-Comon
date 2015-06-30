@@ -30,12 +30,23 @@ class CsrfGuard
     public static function isValid()
     {
         if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']) {
-            return false;
+            return FALSE;
         }
         
-        $name = isset($_POST[$_SESSION['_guardName']]) ? $_SESSION['_guardName'] : false;
+        if ( !isset($_SESSION['_guardName']) ) {
+            return FALSE;
+        }
+        
+        if (!isset($_SESSION['_guardValue']) ){
+            return FALSE;
+        }
+        
+        if ( !isset($_POST[$_SESSION['_guardName']]) ){
+            return FALSE;
+        }
+        
         if ($_POST[$_SESSION['_guardName']] !== $_SESSION['_guardValue']) {
-            return false;
+            return FALSE;
         }
         
         return true;
