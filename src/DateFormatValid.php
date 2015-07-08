@@ -1,18 +1,23 @@
 <?php
 namespace PP\Common;
 
-
 /**
  * Description of DateFormatValid
  
  */
-class DateFormatValid {
-    public static function isDateFormatValid($Date)
+class DateFormatValid
+{
+    /**
+     * 
+     * @param string $date MM/YYYY or DD/MM/YYYY
+     * @return boolean
+     */
+    public static function isDateFormatValid($date)
     {
-        $cnt = strlen($Date);
+        $cnt = strlen($date);
         $arr = array();
         if ($cnt > 5 && $cnt < 8) {
-            if (preg_match_all('/(\d{1,2})\/(\d{4})/', $Date, $arr)===false) {
+            if (preg_match_all('/(\d{1,2})\/(\d{4})/', $date, $arr)===false) {
                 return false;
             }
             if (intval($arr[1][0]) < 1 || intval($arr[1][0]) > 12) {
@@ -21,7 +26,7 @@ class DateFormatValid {
                 return true;
             }
         } elseif ($cnt > 7 && $cnt < 11) {
-            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $Date, $arr)===false) {
+            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $date, $arr)===false) {
                 return false;
             }
             if (intval($arr[1][0]) < 1 || intval($arr[1][0]) > 31) {
@@ -36,18 +41,25 @@ class DateFormatValid {
         }
         return false;
     }
-    public static function isDateBefore($Date, $RefDate=null)
+    
+    /**
+     * 
+     * @param string $date DD/MM/YYYY
+     * @param string $refDate DD/MM/YYYY or default null
+     * @return boolean
+     */
+    public static function isDateBefore($date, $refDate=null)
     {
         $arr = array();
-        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $Date, $arr)===false) {
+        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $date, $arr)===false) {
             return false;
         }
         $t1 = new \DateTime();
         $t1->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
         $t1->setTime(0, 0, 0);
         $t2 = new \DateTime();
-        if ($RefDate!=null) {
-            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $RefDate, $arr)===false) {
+        if ($refDate!=null) {
+            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $refDate, $arr)===false) {
                 return false;
             }
             $t2->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
@@ -55,18 +67,25 @@ class DateFormatValid {
         $t2->setTime(0, 0, 0);
         return $t1<$t2;
     }
-    public static function isDateAfter($Date, $RefDate=null)
+    
+    /**
+     * 
+     * @param string $date DD/MM/YYYY
+     * @param string $refDate DD/MM/YYYY / default null
+     * @return boolean
+     */
+    public static function isDateAfter($date, $refDate=null)
     {
         $arr = array();
-        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $Date, $arr)===false) {
+        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $date, $arr)===false) {
             return false;
         }
         $t1 = new \DateTime();
         $t1->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
         $t1->setTime(0, 0, 0);
         $t2 = new \DateTime();
-        if ($RefDate!=null) {
-            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $RefDate, $arr)===false) {
+        if ($refDate!=null) {
+            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $refDate, $arr)===false) {
                 return false;
             }
             $t2->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
@@ -74,18 +93,25 @@ class DateFormatValid {
         $t2->setTime(0, 0, 0);
         return $t1>$t2;
     }
-    public static function isDateEqual($Date, $RefDate=null)
+    
+    /**
+     * 
+     * @param string $date DD/MM/YYYY
+     * @param string $refDate default null or DD/MM/YYYY
+     * @return boolean
+     */
+    public static function isDateEqual($date, $refDate=null)
     {
         $arr = array();
-        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $Date, $arr)===false) {
+        if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $date, $arr)===false) {
             return false;
         }
         $t1 = new \DateTime();
         $t1->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
         $t1->setTime(0, 0, 0);
         $t2 = new \DateTime();
-        if ($RefDate!=null) {
-            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $RefDate, $arr)===false) {
+        if ($refDate!=null) {
+            if (preg_match_all('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', $refDate, $arr)===false) {
                 return false;
             }
             $t2->setDate(intval($arr[3][0]), intval($arr[2][0]), intval($arr[1][0]));
@@ -93,26 +119,38 @@ class DateFormatValid {
         $t2->setTime(0, 0, 0);
         return $t1 == $t2;
     }
-    public static function isEmailValid($Email)
+    
+    /**
+     *
+     * @param string $email
+     * @return boolean
+     */
+    public static function isEmailValid($email)
     {
-        if (filter_var($Email, FILTER_VALIDATE_EMAIL) === false) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             return false;
         } else {
             return true;
         }
     }
-    public static function isLuhnValid($CardNo)
+    
+    /**
+     *
+     * @param int $CardNo
+     * @return boolean
+     */
+    public static function isLuhnValid($cardNo)
     {
-        if (!is_string($CardNo)) {
+        if (!is_string($cardNo)) {
             return false;
         }
-        if (preg_match('/^[0-9]{16}$/', $CardNo)!=1) {
+        if (preg_match('/^[0-9]{16}$/', $cardNo)!=1) {
             return false;
         }
 
         $reverseCardNo = '';
         for ($i=15; $i>=0; $i--) {
-            $reverseCardNo .= substr($CardNo, $i, 1);
+            $reverseCardNo .= substr($cardNo, $i, 1);
         }
         
         $sum = 0;
