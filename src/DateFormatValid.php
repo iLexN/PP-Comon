@@ -136,7 +136,7 @@ class DateFormatValid
     
     /**
      *
-     * @param int $CardNo
+     * @param int $cardNo
      * @return boolean
      */
     public static function isLuhnValid($cardNo)
